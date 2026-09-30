@@ -1,156 +1,125 @@
-# 🏨 Hotel Management System — Kivy
+# 🏨 Hotel Management System
 
-A desktop **Hotel Management System** built with **Python, Kivy, and SQLite**. The application provides a graphical interface for managing hotel rooms, guests, and bookings, including check-in, check-out, and automatic bill calculation.
-
-## 📌 Project Overview
-
-This project is designed to simplify basic hotel management operations through a simple desktop GUI.
-
-The system allows hotel staff to:
-
-- Manage hotel rooms
-- Register and manage guests
-- Check guests in and out
-- Track room availability
-- Maintain active bookings
-- Maintain booking history
-- Automatically calculate bills based on the number of nights stayed
+A desktop **Hotel Management System** built with **Python, Kivy, and SQLite**.  
+The application provides a graphical interface for managing rooms, guests, and hotel bookings, including check-in, check-out, booking history, and automatic bill calculation.
 
 ## ✨ Features
 
-### 🛏️ Rooms Management
-- Add rooms with:
-  - Room number
-  - Room type
-  - Price per night
-- Supported room types:
-  - Single
-  - Double
-  - Suite
-  - Deluxe
-- View room status as **Available** or **Occupied**
+### 🛏️ Room Management
+- Add rooms with room number, room type, and price per night
+- Supported room types: Single, Double, Suite, Deluxe
+- View room availability
 - Delete selected rooms
 - Prevent duplicate room numbers
 
 ### 👤 Guest Management
-- Add guest details:
-  - Name
-  - Phone number
-  - Email
+- Add guest name, phone, and email
 - View registered guests
-- Delete guest records
+- Delete selected guest records
 
 ### 📅 Booking Management
-- Select a guest and available room for check-in
-- Automatically mark a checked-in room as **Occupied**
+- Select a guest and an available room for check-in
+- Automatically change room status to **Occupied**
 - View active bookings
 - Check out selected bookings
-- Automatically calculate the total bill
-- Automatically change the room status back to **Available**
-- Maintain permanent booking history
+- Automatically calculate the bill from nights stayed × room price
+- Preserve completed bookings in booking history
+- Return checked-out rooms to **Available**
 
-### 💰 Automatic Bill Calculation
+## 🖥️ Screenshots
 
-The total bill is calculated using:
+### Rooms Management
+![Rooms Management](screenshots/rooms.png)
 
-```text
-Total Bill = Number of Nights × Price Per Night
-```
+### Guest Management
+![Guest Management](screenshots/guests.png)
 
-A minimum charge of one night is applied, even for a same-day checkout.
+### Booking Management
+![Booking Management](screenshots/bookings.png)
+
+### Checkout & Bill Calculation
+![Checkout Result](screenshots/checkout-result.png)
+
+> Screenshots use demonstration/redacted data for privacy.
 
 ## 🛠️ Technologies Used
 
 | Technology | Purpose |
 |---|---|
-| Python | Application logic |
-| Kivy | Graphical User Interface |
-| SQLite | Local database |
-| `sqlite3` | Database operations |
-| `datetime` | Date and checkout calculations |
+| **Python 3.8+** | Application programming |
+| **Kivy** | Graphical user interface |
+| **SQLite** | Local database |
+| **sqlite3** | Python database interface |
+| **datetime** | Date and billing calculations |
 
-## 🗄️ Database Structure
+## 🗄️ Database
 
-The application uses a local SQLite database named:
+The application creates a local SQLite database named:
 
 ```text
 hotel.db
 ```
 
-The database is created automatically when the application is run for the first time.
+The database contains three main tables:
 
-It contains three main tables:
+- `rooms` — room number, type, nightly price, and availability
+- `guests` — guest name, phone, and email
+- `bookings` — room, guest, check-in/check-out, status, and total bill
 
-### `rooms`
-Stores room information such as room number, room type, price, and availability status.
+The database file is created automatically when the application is first run.
 
-### `guests`
-Stores guest information including name, phone number, and email.
+## 🏗️ Application Architecture
 
-### `bookings`
-Stores booking information including room, guest, check-in date, check-out date, booking status, and total bill.
+The project is organized into three main layers:
 
-## 🏗️ Project Architecture
+```text
+Database Layer
+      ↓
+UI Helper Layer
+      ↓
+Screen Layer
+      ↓
+Application Shell
+```
 
-The application is organized into three main layers:
+### Database Layer
+The `Database` class handles SQLite operations such as creating tables, adding/deleting records, creating bookings, checking out bookings, and retrieving booking information.
 
-### 1. Database Layer
-The `Database` class handles SQLite operations such as:
+### UI Helper Layer
+Reusable components handle popups, table rows, and scrollable table views.
 
-- Creating tables
-- Adding and deleting rooms
-- Adding and deleting guests
-- Creating bookings
-- Checking out bookings
-- Retrieving active and historical bookings
-
-### 2. UI Helper Layer
-Reusable components are used for:
-
-- Information and confirmation popups
-- Table rows
-- Scrollable table views
-
-### 3. Screen Layer
-
-The application contains separate screens for:
+### Screen Layer
+The application contains:
 
 - `RoomsScreen`
 - `GuestsScreen`
 - `BookingsScreen`
 
-A `ScreenManager` is used to switch between the screens.
+A `ScreenManager` is used to switch between screens.
 
 ## 📁 Project Structure
 
 ```text
 Hotel-Management-System-Kivy/
 │
-├── hotel_management_kivy.py
-├── requirements.txt
+├── Hotel-Management-System.py
 ├── README.md
-├── screenshots/
-│   ├── rooms.png
-│   ├── guests.png
-│   └── bookings.png
+├── requirements.txt
+├── .gitignore
 │
-└── documentation/
-    └── Hotel_Management_System_Documentation.pdf
+└── screenshots/
+    ├── rooms.png
+    ├── guests.png
+    ├── bookings.png
+    └── checkout-result.png
 ```
-
-> The `screenshots` and `documentation` folders are optional and can be added when organizing the GitHub repository.
-
-## ⚙️ Requirements
-
-- Python **3.8 or higher**
-- Kivy
 
 ## 🚀 Installation & Running
 
 ### 1. Clone the repository
 
 ```bash
-git clone YOUR_GITHUB_REPOSITORY_URL
+git clone https://github.com/krishitabhagwagar1710-maker/Hotel-Management-System-Kivy.git
 ```
 
 ### 2. Open the project folder
@@ -159,7 +128,7 @@ git clone YOUR_GITHUB_REPOSITORY_URL
 cd Hotel-Management-System-Kivy
 ```
 
-### 3. Install the required package
+### 3. Install dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -168,51 +137,43 @@ pip install -r requirements.txt
 ### 4. Run the application
 
 ```bash
-python hotel_management_kivy.py
+python Hotel-Management-System.py
 ```
 
-### 5. Database creation
+On first launch, `hotel.db` is automatically created in the project folder.
 
-On the first launch, the application automatically creates:
-
-```text
-hotel.db
-```
-
-The database stores room, guest, and booking information locally.
-
-## 🖥️ Application Navigation
-
-The application provides three main sections:
+## 🔄 Application Workflow
 
 ```text
-Hotel Management System
-
-├── Rooms
-│   ├── Add Room
-│   ├── View Rooms
-│   └── Delete Room
-│
-├── Guests
-│   ├── Add Guest
-│   ├── View Guests
-│   └── Delete Guest
-│
-└── Bookings
-    ├── Check-In
-    ├── Active Bookings
-    ├── Check-Out
-    └── Booking History
+Add Rooms
+   ↓
+Add Guests
+   ↓
+Select Guest + Available Room
+   ↓
+Check-In
+   ↓
+Room becomes Occupied
+   ↓
+Active Booking
+   ↓
+Check-Out
+   ↓
+Automatic Bill Calculation
+   ↓
+Room becomes Available
+   ↓
+Booking History Updated
 ```
 
 ## 🔒 Data Integrity
 
-The system includes several basic data-integrity rules:
+The application includes basic data-integrity rules:
 
 - Room numbers must be unique.
-- Only available rooms are displayed for check-in.
-- Checking in changes a room to **Occupied**.
-- Checking out changes the room back to **Available**.
+- Only available rooms can be selected for check-in.
+- Check-in changes a room to **Occupied**.
+- Check-out changes a room back to **Available**.
 - Completed bookings remain in booking history.
 - SQLite foreign keys are enabled for room and guest relationships.
 
@@ -221,76 +182,35 @@ The system includes several basic data-integrity rules:
 The current version does not include:
 
 - Staff login/authentication
-- Search or filtering
+- Search and filtering
 - PDF invoice/receipt export
 - Editing existing rooms or guests
 - Network/multi-user database support
 - Future date-range room availability
 
-The application is designed for **single-user, single-computer use** with a local SQLite database.
+The current application is designed for **single-user, single-computer use** with a local SQLite database.
 
 ## 🔮 Future Enhancements
 
-Possible improvements include:
+Possible future improvements include:
 
-- 👤 Staff authentication and login
-- ✏️ Edit room and guest information
-- 🧾 PDF invoice generation
-- 🔍 Search and filtering
-- 📅 Future booking and date-range availability
-- 📱 Packaging the application as a mobile app using Kivy's Android/iOS build tools
-
-## 🧪 Troubleshooting
-
-### `ModuleNotFoundError: No module named 'kivy'`
-
-Install Kivy:
-
-```bash
-pip install kivy
-```
-
-Or install all dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-### Room already exists
-
-Room numbers must be unique. Check the Rooms section for an existing room with the same number.
-
-### Data appears to be missing
-
-Make sure `hotel.db` is located in the same folder from which the application is being run. Running the application from a different directory can create a new database file.
+- User authentication and role-based access
+- Search and filtering
+- Edit functionality for rooms and guests
+- PDF invoice generation
+- Date-range room availability
+- Improved dashboard and reports
+- Mobile packaging using Buildozer
 
 ## 📚 Documentation
 
-Detailed project documentation is included in the repository and covers:
-
-- Project overview
-- Requirements
-- Installation
-- Features
-- Database structure
-- Python code
-- Code architecture
-- Business logic
-- Limitations
-- Future enhancements
-- Troubleshooting
+The project documentation explains the requirements, features, database structure, code architecture, business logic, limitations, and troubleshooting steps.
 
 ## 👩‍💻 Author
 
-**Bhagwagar Krishita**
-
-B.Sc.IT — Department of Computer Science  
-Vanita Vishram, Surat
-
-## ⭐ Project Purpose
-
-This project was developed as part of an **Advanced Python** project to demonstrate the use of Python, Kivy GUI development, SQLite database management, and application-level business logic.
+**Bhagwagar Krishita**  
+B.Sc.IT — Hotel Management System using Kivy
 
 ---
 
-⭐ If you find this project useful, consider giving the repository a star!
+⭐ If you find this project useful, consider giving the repository a star.
